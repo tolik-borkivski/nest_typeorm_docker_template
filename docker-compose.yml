@@ -1,0 +1,28 @@
+version: "3.0"
+
+services: 
+    server:
+        image: node:12
+        working_dir: /server
+        volumes: 
+            - ./:/server
+        depends_on: 
+            - db
+        ports: 
+            - 8000:8000
+        command: bash -c "yarn start"
+
+    db: 
+        image: mariadb
+        restart: always
+        environment: 
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: test
+
+    adminer: 
+        image: adminer
+        restart: always
+        ports:
+            - 8080:8080
+        depends_on: 
+            - db
